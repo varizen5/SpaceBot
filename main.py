@@ -1,0 +1,1 @@
+print("Benvenuto nella tua app! Versione 1.0.0")
