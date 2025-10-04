@@ -1,4 +1,4 @@
-import requests, os, zipfile, shutil
+import requests, os, zipfile, shutil, subprocess, sys
 
 # 🔧 Configura qui il tuo repo
 GITHUB_USER = "varizen5"
@@ -12,7 +12,6 @@ def get_remote_version():
     if r.status_code == 200:
         return r.text.strip()
     else:
-        print("Errore nel recupero della versione remota.")
         return None
 
 def get_local_version():
@@ -26,7 +25,6 @@ def update_files():
     print("Scarico aggiornamento...")
     r = requests.get(ZIP_URL)
     if r.status_code != 200:
-        print("Errore nel download del file ZIP.")
         return
 
     with open("update.zip", "wb") as f:
@@ -36,7 +34,6 @@ def update_files():
         with zipfile.ZipFile("update.zip", 'r') as zip_ref:
             zip_ref.extractall("update_temp")
     except zipfile.BadZipFile:
-        print("Il file scaricato non è un ZIP valido.")
         return
 
     src_folder = f"update_temp/{REPO_NAME}-main"
@@ -48,7 +45,10 @@ def update_files():
 
     os.remove("update.zip")
     shutil.rmtree("update_temp")
-    print("Aggiornamento completato.")
+
+def restart_main():
+    subprocess.Popen([sys.executable, "main.py"])
+    sys.exit()
 
 def main():
     remote_version = get_remote_version()
@@ -57,11 +57,9 @@ def main():
     if remote_version and remote_version != local_version:
         print(f"Aggiornamento disponibile: {local_version} → {remote_version}")
         update_files()
-    else:
-        print("Nessun aggiornamento disponibile.")
+        restart_main()
+        return
 
     os.system("python main.py")
 
 main()
-
-
