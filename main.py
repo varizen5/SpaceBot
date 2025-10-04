@@ -17,7 +17,7 @@ def main():
     root.geometry("300x150")
 
     # Messaggio
-    label = tk.Label(root, text=f"Benvenuto in SpaceBot! Questa è una versione modificata!\nVersione: {version}", font=("Arial", 12), pady=20)
+    label = tk.Label(root, text=f"Quarta versione.\nVersione: {version}", font=("Arial", 12), pady=20)
     label.pack()
 
     # Bottone di uscita
