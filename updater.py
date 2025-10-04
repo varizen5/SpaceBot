@@ -54,9 +54,6 @@ def main():
     remote_version = get_remote_version()
     local_version = get_local_version()
 
-    print("Versione locale:", local_version)
-    print("Versione remota:", remote_version)
-
     if remote_version and remote_version != local_version:
         print(f"Aggiornamento disponibile: {local_version} → {remote_version}")
         update_files()
@@ -66,4 +63,5 @@ def main():
     os.system("python main.py")
 
 main()
+
 
